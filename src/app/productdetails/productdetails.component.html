@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="product-details-container d-flex">
+        <div class="left-container">
+            <div class="product-img mb-4">
+                <img class="w-300" [src]="currentProduct.thumbnailUrl">
+            </div>
+            <div class="product-actions">
+                @if(!isProductInCart){
+                    <button class="w-100 btn-theme" (click)="addToCart(currentProduct)">Add to cart</button>
+                }
+                @if(isProductInCart){
+                    <button class="w-100 btn-theme" routerLink="/cart" >Go to cart</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

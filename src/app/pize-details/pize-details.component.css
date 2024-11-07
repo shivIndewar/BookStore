@@ -1,0 +1,12 @@
+.price-details{
+    width: 250px;
+    height: fit-content;
+    border: 1px solid #FFE6C6;
+    background-color: #FFE6C6;
+    border-radius: 10px;
+    position: fixed;
+    right: 125px;
+}
+.total-amount{
+    border-top: 1px dashed gray;
+}

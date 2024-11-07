@@ -1,0 +1,24 @@
+<div class="cart">
+    @if(!cartItems.length){
+        <div class="empty-cart d-flex flex-column align-items-center">
+            <img src="Empty-Cart.jpg" >
+            <h1 class="mt-4">No items in your cart</h1>
+            <h3>Add items to continue shopping!!</h3>
+            <button class="btn-theme w-23 wt-4" routerLink='/home'>Shop Now</button>
+        </div>
+    }
+    @else{
+        <div class="cart-content d-flex justify-content-between p-5">
+            <div class="items-container ml-5">
+                @for (item of cartItems; track $index) {
+                    <app-cart-item [book]="item"></app-cart-item>
+                }
+            </div>
+            <div>
+                <app-pize-details></app-pize-details>
+                <button class="btn-theme btn-checkout">Checkout</button>
+            </div>
+        </div>
+    }
+  
+</div>

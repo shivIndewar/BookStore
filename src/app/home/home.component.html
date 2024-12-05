@@ -1,10 +1,18 @@
 <div class="d-flex">
-    <app-side-panel></app-side-panel>
+   @if (warehoiseNode.length > 0) 
+   {
+     <app-side-panel [warehouseSideData]="warehoiseNode"></app-side-panel>
+   }
     <div class="home-main row">
-        @for (item of books(); track $index) {
+        <!-- @for (item of books(); track $index) {
              <app-product class="col-4" [book]="item"></app-product>
-        }
+        } -->
+
+        @for (item of warehoiseNode; track $index) {
+            <app-product class="col-4" [warehoiseProducts]="item"></app-product>
+       }
     </div>
 </div>
 
 
+ 

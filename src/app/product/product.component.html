@@ -3,8 +3,10 @@
         <a routerLink="/product-details"[queryParams]="id"><img class="book-thumbnail" [src]="book.thumbnailUrl"></a>
     </div>
     <div class="cart-container">
-        <h4 class="text-truncate">{{book.title}}</h4>
-        <p class="text-secondary text-truncate">{{book.categories}}</p>
+        <p class="text-truncate">{{warehoiseProducts.name}}</p>
+        <p class="text-secondary text-truncate">{{warehoiseProducts.categoryId}}</p>
+        <p class="text-secondary text-truncate">{{warehoiseProducts.productSeriesNo}}</p>
+        
         @if(!book.isProductInCart)
         {
             <button class="btn-theme w-100" (click)="addToCart(book)">Add to cart</button>

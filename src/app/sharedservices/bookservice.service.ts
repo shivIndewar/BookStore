@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Subject } from 'rxjs';
+import { WareHouseDto } from '../model/warehouse';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class BookserviceService {
   books : any [] = [];
   sortBookSubject = new Subject();
   filteredBooks : any;
-
+  wareHose : WareHouseDto[]=[];
   getAllBooks(){
     return this.http.get("http://localhost:3000/books").pipe(map((book : any)=>{
       debugger;
@@ -19,6 +20,19 @@ export class BookserviceService {
       this.filteredBooks = this.books;
       return book;
     }));
+  }
+
+  getAllProducts(){
+    return this.http.get<WareHouseDto[]>("https://localhost:7258/api/WareHouse")
+    .pipe(
+      map((res : WareHouseDto[])=>{
+        return res.map((item)=> new WareHouseDto(item))
+      })
+    );
+  }
+
+  getWareHpiseProducts(){
+    return this.http.get<Array<WareHouseDto>>("https://localhost:7258/api/WareHouse");
   }
 
   sortBooksCriteria(criteria : any){

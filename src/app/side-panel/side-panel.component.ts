@@ -1,48 +1,57 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-
+import { BookserviceService } from '../sharedservices/bookservice.service';
+import { Product, WareHouseDto } from '../model/warehouse';
+import { WareHouseNode } from '../model/WareHouseNode';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { WareHouseRecord } from '../state/warehouse-records';
+import { selectAll } from '../state/warehouse-selector';
+import * as Actions from '../state/warehouse-records.actions';
 interface FoodNode {
   name: string;
+  chld : string;
   children?: FoodNode[];
 }
 
-const TREE_DATA: FoodNode[] = [
+
+
+
+ const tree_data1 : WareHouseNode [] = [
   {
-    name: 'Fruit',
-    children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-  },
-  {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-      },
-      {
-        name: 'Orange',
-        children: [
+      "name": "GEDC- 10 SERIES (Bridge)",
+      "categoryId": 1,
+      "productId": 0,
+      "productType": "category",
+      "children": [
           {
-            name: 'santra',
-            children: [
-              {
-                name: 'Green',
-                children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-              },
-              {
-                name: 'Orange',
-                children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-              },
-            ],
+              "name": "GEDC- 10 SERIES (Bridge)",
+              "categoryId": 1,
+              "productId": 1,
+              "productType": "product",
+              "children": [],
+              "productSeriesNo": "GEDC-10x10"
           },
           {
-            name: 'Mosumbi',
-            children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
+              "name": "GEDC- 10 SERIES (Bridge)",
+              "categoryId": 1,
+              "productId": 2,
+              "productType": "product",
+              "children": [],
+              "productSeriesNo": "GEDC-10x15"
           },
-        ],
-      },
-    ],
+          {
+              "name": "GEDC- 10 SERIES (Bridge)",
+              "categoryId": 1,
+              "productId": 3,
+              "productType": "product",
+              "children": [],
+              "productSeriesNo": "GEDC-10x20"
+          }
+      ],
+      "productSeriesNo": ""
   },
 ];
 
@@ -53,10 +62,36 @@ const TREE_DATA: FoodNode[] = [
   templateUrl: './side-panel.component.html',
   styleUrl: './side-panel.component.css'
 })
-export class SidePanelComponent {
-  dataSource = TREE_DATA;
+export class SidePanelComponent implements OnInit {
+ 
+  booksService = inject(BookserviceService);
+  products = signal<any[]>([]);
+  wareHouse : WareHouseDto[] = [];
+  warehoiseNode: WareHouseNode[] = tree_data1;
 
-  childrenAccessor = (node: FoodNode) => node.children ?? [];
+  store = inject(Store);
+  dataSource: any []= [];
+  dataSource$ : Observable<WareHouseRecord[]> = this.store.select(selectAll);
 
-  hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
+  @Input() warehouseSideData : WareHouseNode[] = tree_data1;
+
+  constructor(){
+    console.log('called side pannel');
+    this.store.dispatch(Actions.callWarehousrRecordsApi());
+  }
+
+  ngOnInit(): void {
+    this.warehoiseNode = this.warehouseSideData;
+    this.dataSource$.subscribe((response : any)=>{
+      console.log(response);
+    });
+  }
+
+  childrenAccessor = (node: WareHouseNode) => node.children ?? [];
+
+  hasChild = (_: number, node: WareHouseNode) => !!node.children && node.children.length > 0;
+
+  performAction(node:any){
+    console.log(node);
+  }
 }

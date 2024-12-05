@@ -76,7 +76,6 @@ export class CartService {
   }
 
   isProductInCart(id: any){
-    debugger;
     let book = this.cartProducts.find((book:any)=>{
       return book.isbn === id.isbn
     })

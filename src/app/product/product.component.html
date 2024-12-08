@@ -1,18 +1,23 @@
 <div class="book-cart p-1 d-flex flex-column justify-content-between">
     <div class="d-flex justify-content-center">
-        <a routerLink="/product-details"[queryParams]="id"><img class="book-thumbnail" [src]="book.thumbnailUrl"></a>
+        <a (click)="productDispaly(warehoiseProducts.productType, warehoiseProducts.productId)"><img class="book-thumbnail" src="empty-300x240.jpg"></a>
     </div>
-    <div class="cart-container">
-        <p class="text-truncate">{{warehoiseProducts.name}}</p>
-        <p class="text-secondary text-truncate">{{warehoiseProducts.categoryId}}</p>
-        <p class="text-secondary text-truncate">{{warehoiseProducts.productSeriesNo}}</p>
+    <div>
+        <p>Type - {{warehoiseProducts.name}}</p>
+        @if (warehoiseProducts.productType==='product') {
+           Series - <p class="text-secondary text-truncate">{{warehoiseProducts.productSeriesNo}}</p>
+        }
+         <p class="text-secondary text-truncate"> Description - {{warehoiseProducts.description}}</p>
         
-        @if(!book.isProductInCart)
+        
+        <!-- @if(!book.isProductInCart)
         {
             <button class="btn-theme w-100" (click)="addToCart(book)">Add to cart</button>
         }
         @else{
             <button class="btn-theme w-100" routerLink="cart">Go to cart</button>
-        }
+        } -->
     </div>
 </div>
+
+

@@ -29,9 +29,7 @@ export class PizeDetailsComponent implements OnInit {
   }
 
   getBillingDetails(){
-    debugger;
     let billingDetails = this.cartService.getBilling(this.cartItems);
-    debugger;
     this.cartItemsPrice = billingDetails.price;
     this.cartItemsDiscount = billingDetails.discount;
     this.deliveryCharge = billingDetails.deliveryCharge; 

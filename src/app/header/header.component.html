@@ -1,28 +1,4 @@
-<div class="header d-flex align-items-center">
-    <a routerLink="/home"><img class="main-logo" src="booklogo.png" alt="book-img"></a>
-    <form #searchBox="ngForm">
-        <div class="header-search d-flex align-items-center">
-            <input type="text" class="searcgbox" name="headerText" [(ngModel)]="headerText" placeholder="search for book">
-        </div>
-    </form>
-    <button class="btn-theme ms-4" (click)="showSortMenu()">Sort</button>
-    @if(isShowSortMenu){
-        <div class="dropdown-container">
-            <div class="drop-down-list row w-250">
-                @for (cr of criteria; track $index) {
-                    <span class="dropdown-list-item" (click)="sortBookAccordingToCriteria(cr)">{{cr}}</span>
-                }
-            </div>
-        </div>
-    }
-    <div class="head-right-item">
-        <div class="cart" routerLink="cart">
-            <img class="cart-image" src="cart.svg"  />
-            @if(cartItemCount){
-                <div class="cart-Items">{{cartItemCount}}</div>
-            }
-            
-        </div>
-    </div>
-
-</div>
+<header class="top-bar">
+    <img src="gbpl-logo.png" alt="Product Image">
+</header>
+  

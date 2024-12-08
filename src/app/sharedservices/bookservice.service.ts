@@ -13,9 +13,12 @@ export class BookserviceService {
   sortBookSubject = new Subject();
   filteredBooks : any;
   wareHose : WareHouseDto[]=[];
+  wareHouseNode : any[] = [];
+  currentProduct : any;
+  // onCategoryClick$: Subject<any> = new Subject<any>;
+
   getAllBooks(){
     return this.http.get("http://localhost:3000/books").pipe(map((book : any)=>{
-      debugger;
       this.books = book;
       this.filteredBooks = this.books;
       return book;
@@ -35,13 +38,21 @@ export class BookserviceService {
     return this.http.get<Array<WareHouseDto>>("https://localhost:7258/api/WareHouse");
   }
 
+  setWareHouseProducts(data:any[]){
+    this.wareHouseNode = data;
+  }
+
+  getWareHouseSharedProducts(){
+    return this.currentProduct;
+  }
+
   sortBooksCriteria(criteria : any){
-    debugger;
     this.sortBookSubject.next(criteria);
   }
 
+
+
   sortBooks(criteria:any){
-    debugger;
     switch (criteria) {
       case 'Price (low to high)':
           this.filteredBooks.sort((a:any, b: any)=>{
@@ -73,4 +84,10 @@ export class BookserviceService {
       return book;
   }
 
+  getCurrentProduct(id:any){
+    let currentProduct =  this.wareHouseNode.find((prouct: any)=>{
+      return prouct.productId === id && prouct.productType=='category';
+    })
+    // this.onCategoryClick$.next(currentProduct?.children);
+  }
 }

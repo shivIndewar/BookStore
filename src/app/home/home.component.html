@@ -1,18 +1,21 @@
-<div class="d-flex">
+<div class="d-flex main-content">
    @if (warehoiseNode.length > 0) 
    {
-     <app-side-panel [warehouseSideData]="warehoiseNode"></app-side-panel>
+     <app-side-panel [warehouseSideData]="warehoiseNode" (childProducts)="displayConcernedChildProducts($event)"></app-side-panel>
    }
-    <div class="home-main row">
+    <div class="home-main">
         <!-- @for (item of books(); track $index) {
              <app-product class="col-4" [book]="item"></app-product>
         } -->
-
-        @for (item of warehoiseNode; track $index) {
-            <app-product class="col-4" [warehoiseProducts]="item"></app-product>
+        <section class="product-list">
+          @for (item of homeProducts; track $index) {
+            <app-product [warehoiseProducts]="item"></app-product>
        }
+        </section>
+        
     </div>
 </div>
+<app-bottom-bar></app-bottom-bar>
 
 
  

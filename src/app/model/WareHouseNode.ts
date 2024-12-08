@@ -5,6 +5,7 @@ export interface WareHouseNode{
     categoryId : number;
     children?: WareHouseNode[];
     productSeriesNo : string;
+    description: string;
     // constructor(){
     //    this.name = "";
     //    this.productType = "";

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -10,14 +10,13 @@ import { Observable } from 'rxjs';
 import { WareHouseRecord } from '../state/warehouse-records';
 import { selectAll } from '../state/warehouse-selector';
 import * as Actions from '../state/warehouse-records.actions';
+import { Router } from '@angular/router';
+
 interface FoodNode {
   name: string;
   chld : string;
   children?: FoodNode[];
 }
-
-
-
 
  const tree_data1 : WareHouseNode [] = [
   {
@@ -25,6 +24,7 @@ interface FoodNode {
       "categoryId": 1,
       "productId": 0,
       "productType": "category",
+      "description": "Test Desc",
       "children": [
           {
               "name": "GEDC- 10 SERIES (Bridge)",
@@ -32,7 +32,8 @@ interface FoodNode {
               "productId": 1,
               "productType": "product",
               "children": [],
-              "productSeriesNo": "GEDC-10x10"
+              "productSeriesNo": "GEDC-10x10",
+              "description":"Test",
           },
           {
               "name": "GEDC- 10 SERIES (Bridge)",
@@ -40,7 +41,9 @@ interface FoodNode {
               "productId": 2,
               "productType": "product",
               "children": [],
-              "productSeriesNo": "GEDC-10x15"
+              "productSeriesNo": "GEDC-10x15",
+              "description":"Test",
+              
           },
           {
               "name": "GEDC- 10 SERIES (Bridge)",
@@ -48,7 +51,8 @@ interface FoodNode {
               "productId": 3,
               "productType": "product",
               "children": [],
-              "productSeriesNo": "GEDC-10x20"
+              "productSeriesNo": "GEDC-10x20",
+              "description":"Test",
           }
       ],
       "productSeriesNo": ""
@@ -70,14 +74,15 @@ export class SidePanelComponent implements OnInit {
   warehoiseNode: WareHouseNode[] = tree_data1;
 
   store = inject(Store);
+  router = inject(Router);
   dataSource: any []= [];
   dataSource$ : Observable<WareHouseRecord[]> = this.store.select(selectAll);
 
   @Input() warehouseSideData : WareHouseNode[] = tree_data1;
-
+  @Output() childProducts = new EventEmitter();
   constructor(){
     console.log('called side pannel');
-    this.store.dispatch(Actions.callWarehousrRecordsApi());
+    // this.store.dispatch(Actions.callWarehousrRecordsApi());
   }
 
   ngOnInit(): void {
@@ -92,6 +97,12 @@ export class SidePanelComponent implements OnInit {
   hasChild = (_: number, node: WareHouseNode) => !!node.children && node.children.length > 0;
 
   performAction(node:any){
-    console.log(node);
+    if(node.productType === 'category'){
+      this.childProducts.emit(node.children);
+    }
+    else{
+      this.booksService.setWareHouseProducts(node);
+      this.router.navigate(['/product-details']);
+    }
   }
 }
